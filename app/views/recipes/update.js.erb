@@ -1,0 +1,2 @@
+$("#recipe_info").html("<%= escape_javascript(render partial: '/recipes/recipe_form', locals: {recipe: @recipe, project: @project} ) %>");
+$('#updating').foundation('close');

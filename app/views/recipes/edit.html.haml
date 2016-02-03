@@ -1,0 +1,295 @@
+%p
+.row
+  .small-12.large-6.column.whitewash
+    %p
+    .upper.blue      
+      Project
+      =@recipe.project.name 
+      %p 
+    #recipe_info
+      =render :partial => 'recipe_form', locals: {recipe: @recipe, project: @project}
+
+
+    #revision 
+      %h6.blue
+
+      %hr
+      = form_for(@recipe_revision, html: { :remote=>true,  :multipart => true }) do |f|
+        =f.hidden_field :recipe_id        
+        =f.text_field :recipe_servings
+        =f.hidden_field :version_number
+        =hidden_field_tag :authenticity_token, form_authenticity_token
+
+        %label The Recipe
+        %textarea{:id=>"body", :name=>"recipe_revision[recipe_body]", :placeholder=>"Add your recipe here. Include the headnote, ingredients list and method.", :style=>"height: 500px;"}
+          =@recipe_revision.recipe_body
+        
+        %label Notes on this Recipe
+        %textarea{:id=>"notes", :name=>"recipe_revision[notes_from_author]", :placeholder=>"Have any special requests or notes for the testers?", :style=>"height: 200px;"}
+          =@recipe_revision.notes_from_author
+
+        #photos
+          =render :partial => 'photo', locals: {recipe_revision: @recipe_revision, project: @project}
+
+        
+        = f.submit "Update"
+
+    %hr
+    #finalize{:class=>@recipe_revision.id.present? ? '':'hidden'}  
+      %h3.blue
+        Ready for Testers?
+      When you are ready to send to this version to testers, we'll add it to our tester queue so folks can sign up. Once you submit a recipe for testing, this version will be locked. If you need to update it, we'll create a new revision for you!
+      %p
+      %a#test_link.button{:href=>"/recipe_revisions/promote?id="+@recipe_revision.id.to_s} Ask for Testers
+
+  .small-12.large-6.column.whitewash{:style=>"border-left: 1px solid grey;"}
+    %p
+    %h4.blue Feedback
+
+    %p      
+    Versions:
+
+
+    %ul.tabs#version-tabs{"data-tabs"=>true}
+      -@recipe.versions_available.each_with_index do |rr,i|
+        -if rr.id == @recipe.last_promoted.id
+          %li.tabs-title.is-active
+            %a{:href=>"#panel"+i.to_s, "aria-selected"=>"true"}
+              .badge
+                =rr.version_number
+
+        -else
+          %li.tabs-title
+            %a{:href=>"#panel"+i.to_s}
+              .badge
+                =rr.version_number
+
+    .tabs-content{"data-tabs-content"=>"version-tabs"}
+      -@recipe.versions_available.each_with_index do |rr,i|    
+        .tabs-panel{:id=>"panel"+i.to_s, :class=> (rr.id == @recipe.last_promoted.id) ? "is-active": ""}
+
+          #recipe_body
+            - rb = rr.body_by_lines
+            -rb.each do |i,line|
+              .row.body_line{"data-line-id"=>i, :id=>"body_line"+i.to_s, "data-has-comments" => (line["comment"].present? ? "true" : "false")}
+                .small-1.large-1.column
+
+                  -if line["text"].present? 
+                    -if line["comment"].present? 
+                      .comment_icon{"data-icon-id"=>i, :id=>"comment_icon"+i.to_s}
+                        %i.fi-comment{:title=>"See Feedback"}              
+                    -else
+                      .comment_icon.invisible{"data-icon-id"=>i}
+                        %i.fi-comment{:title=>"Add Feedback"} 
+                    
+                    .comments.hidden{"data-comments-id"=>i, :style=>"z-index: 700; position: absolute; right: 5px; border: 1px solid #ccc; padding: 20px;  max-width: 300px; width: 300px; background: white;"}
+                      .upper
+                        Feedback
+                      %hr
+                        .comment_list{:id=>"comment_list"+i.to_s}
+                          =render :partial => 'line_comments', locals: {line: line, i: i, most_recent: rr} 
+                  -else
+                    &nbsp;
+                    %br
+                .small-11.large-11.column
+                  =line["text"]
+          %hr
+          -if rr.notes_from_author.present?
+            .upper
+              Your note to testers
+            .em
+              =rr.notes_from_author
+
+          %p
+          %hr
+          %h4.blue Results
+          -rr.recipe_ratings.each do |rating|
+            .callout
+              =rating.user.name
+              Says:
+              %hr
+              =simple_format(rating.overall_notes)
+              .row
+                .small-6.column
+                  %label.upper Servings Made
+                  =rating.servings_made
+                .small-6.column
+                  %label.upper Time to Make
+                  =rating.time_to_make  
+              %hr
+              .row
+                .small-6.column
+                  .upper Would Make Again
+                  %h6{:title=>"Would Make Again"} 
+                    -(1..5).each_with_index do |star, i|
+                      -if rating.would_make_again > i
+                        %span.blue
+                          %i.fi-star.make_again{"data-star-number"=>i+1}
+                      -else
+                        %span.grey
+                          %i.fi-star.make_again{"data-star-number"=>i+1}  
+
+                .small-6.column
+                  .upper Overall Satisfaction
+                  %h6{:title=>"Overall Satisfaction"} 
+                    -(1..5).each_with_index do |star, i|
+                      -if rating.overall_satisfaction > i
+                        %span.blue
+                          %i.fi-star.overall_sat{"data-star-number"=>i+1}
+                      -else
+                        %span.grey
+                          %i.fi-star.overall_sat{"data-star-number"=>i+1}  
+
+
+              .row
+                .small-12.column
+                  .upper
+                    Photos
+                  -rating.photos.each do |photo|
+                    %a{"data-open"=>"photoModal"+photo.id.to_s}
+                      %img{:id=>"rating_photos", :style=>" width: 100px;", :src=>photo.attachment.url(:square)}
+
+                    .reveal.small{:id=>"photoModal"+photo.id.to_s, "data-reveal"=>true}
+                      %img{:style=>" width: 100%;", :src=>photo.attachment.url(:large)}
+
+              %hr
+              .row
+                .small-12.small-centered.large-centered.column
+                  %label.upper How helpful was this review?
+                  - if !rating.reviewer_rating.present?
+                    -rating.reviewer_rating = 0
+                  %h2
+                    -(1..5).each_with_index do |star, i|
+                      -if rating.reviewer_rating > i
+                        %span.blue
+                          %i.fi-star.reviewer_stars{"data-star-number"=>i+1}
+                      -else
+                        %span.grey
+                          %i.fi-star.reviewer_stars{"data-star-number"=>i+1}    
+                      
+                    %input{:type=>"hidden", :value=>rating.reviewer_rating, :id=>"reviewer_rating", "data-rating-id"=>rating.id}
+
+.reveal.tiny{:id=>"updating", "data-reveal"=>true}
+  %h4.blue
+    %i.fa.fa-cog.fa-spin
+    Updating...
+
+:javascript
+
+  var open_comment_box;
+
+  $('.body_line').on("click", function(e){
+    event.stopPropagation(e);
+    if(open_comment_box){
+      open_comment_box.addClass("hidden");
+    }
+    var comments = $( this ).find(".comments");
+    console.log(comments.data("comments-id"));
+    open_comment_box = comments;
+    comments.removeClass("hidden");
+  })
+
+
+  $('.comment_icon').on("click", function(e){
+    event.stopPropagation(e);
+    if(open_comment_box){
+      open_comment_box.addClass("hidden");
+    }
+    var comments = $( this ).parent().find(".comments");
+    console.log(comments.data("comments-id"));
+    open_comment_box = comments;
+    comments.removeClass("hidden");
+  })
+
+  $('.edit_recipe').on("submit", function(e){
+    $('#updating').foundation('open');
+  })
+
+  $('.edit_recipe_revision').on("submit", function(e){
+    $('#updating').foundation('open');
+  })
+
+  $('html').on("click", function(e){
+    if(open_comment_box){
+      open_comment_box.addClass("hidden");
+    }
+  })
+
+  $('.reviewer_stars').on("mouseover", function(e){
+    console.log("on")
+    var highest_rating = $( this ).data("star-number");
+    $( ".reviewer_stars" ).each(function() {
+      if($( this ).data("star-number") <= highest_rating){
+        $( this ).addClass( "blue" );
+      }
+      else{
+        $( this ).removeClass( "blue");
+        $( this ).addClass( "grey" );
+      }
+    });
+  })
+
+  $('.reviewer_stars').on("mouseout", function(e){
+    var highest_rating = $('#reviewer_rating').val();
+    $( ".reviewer_stars" ).each(function() {
+      if($( this ).data("star-number") <= highest_rating){
+        $( this ).addClass( "blue" );
+      }
+      else{
+        $( this ).removeClass( "blue");
+        $( this ).addClass( "grey" );
+      }
+    });
+  })
+
+    $('.reviewer_stars').on("click", function(e){
+    var highest_rating = $( this ).data("star-number");
+    $( ".reviewer_stars" ).each(function() {
+      if($( this ).data("star-number") <= highest_rating){
+        $( this ).addClass( "blue" );
+      }
+      else{
+        $( this ).removeClass( "blue");
+        $( this ).addClass( "grey" );
+      }
+    });
+    rating = $( this ).parent().parent().find("#reviewer_rating")
+    rating.val(highest_rating);
+    $.ajax({
+     type: "GET",
+     dataType: 'text',
+     url: "/recipe_ratings/helpfulness?id="+rating.data("rating-id")+"&reviewer_rating="+rating.val(),
+     success: function(data,status,xhr) {
+     },
+     error: function (xhr,status,error) {
+            
+      }   
+    });
+
+  })
+
+  $('#remove').on("click", function(e){
+
+    console.log('remove');
+    var id = $(this).data('photo-id');
+
+    $.ajax({
+      url: "#{photos_path}/"+id,
+      type: "POST", 
+      dataType: "HTML",
+      data: {"_method":"delete", "id":id},
+      success: function(data,status,xhr) {
+
+        $("#photos").html("#{ escape_javascript(render partial: '/recipes/photo', locals: {recipe_revision: @recipe_revision} ) }");
+
+      },
+      error: function (xhr,status,error) {
+
+      }
+    }); 
+  });
+
+
+  $('.comments').on("click", function(e){
+    event.stopPropagation(e);
+  })

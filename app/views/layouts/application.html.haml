@@ -1,0 +1,91 @@
+!!! 5
+%html.csstransforms.csstransforms3d.csstransitions{:lang => "en"}
+  %head
+    = yield :head_start
+
+    %meta{:charset=>"utf-8"}
+    %meta{:name=>"viewport", :content=>"width=device-width, initial-scale=1.0, user-scalable=no"}
+
+
+    - title = yield(:title)
+    %title= title.present? ? title : raw("recipe checkers")
+    = favicon_link_tag 'favicon.ico' 
+
+    = csrf_meta_tags
+
+    = stylesheet_link_tag "application", media: "all", "data-turbolinks-track" => true
+    = stylesheet_link_tag "//fonts.googleapis.com/css?family=Josefin+Sans|Questrial", media: "all"
+    = javascript_include_tag "application"
+
+    = yield :head_end
+
+  %body
+
+    .fixed
+      .top-bar{"data-topbar"=>true, :role=>"navigation"}
+        %ul.top-bar-title
+          %span{"data-responsive-toggle"=>"responsive-menu", "data-hide-for"=>"medium"}
+            %span.menu-icon.dark{"data-toggle" => true}
+          %h6.blue.upper
+            %a{:href=>root_path}
+              Recipe Checkers
+        #responsive-menu
+          %section.top-bar-right
+            %ul.menu
+              
+              -if current_user.present?
+                %li 
+                  %span.darkgrey.upper
+                    %a{:href=>"/users/dashboard"}
+                      My Recipes
+                %li
+                  =link_to(destroy_user_session_path, :method => :delete) do
+                    %span.darkgrey.upper
+                      Sign Out
+
+
+                %li
+                  %a{:href => edit_user_registration_path(current_user)}
+                    %span.darkgrey.upper
+                      Edit
+
+              -else
+                %li
+                  %a{:href => "/users/sign_in"}
+                    %span.darkgrey.upper
+                      Login
+                %li.divider  
+                %li
+                  %a{:href => "/users/sign_up"}
+                    %span.darkgrey.upper
+                      Join
+
+
+
+
+
+    .pad{:style=>"margin-top: 50px; margin-bottom: 200px;"}
+      = yield
+    %footer.footer
+      .row
+        .small-6.large-3.small-centered
+          .white.upper.small
+            Follow:
+
+            %a{:href=>""}
+              %i.fi-social-facebook.white
+            %a{:href=>""}  
+              %i.fi-social-twitter.white
+            %a{:href=>""}  
+              %i.fi-social-pinterest.white
+          
+
+        
+      .row
+        .small-12.small-centered.column.white
+          .small
+            © 2016 Lara Ferroni All Rights Reserved
+
+
+:javascript  
+  $(document).foundation();

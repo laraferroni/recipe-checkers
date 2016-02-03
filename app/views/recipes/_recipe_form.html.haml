@@ -1,0 +1,10 @@
+= form_for(recipe, html: { :remote=>true }) do |f|
+  =f.hidden_field :project_id, :value=>project.id
+  =f.hidden_field :user_id, :value=>current_user.id
+  =f.hidden_field :id
+  =f.text_field :name
+  =f.text_field :number_of_testers
+  -if recipe.id.present?
+    =f.submit "Update"
+  -else
+    = f.submit "Add"

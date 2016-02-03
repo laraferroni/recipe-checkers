@@ -1,0 +1,2 @@
+class TesterRecipesController < ApplicationController
+end

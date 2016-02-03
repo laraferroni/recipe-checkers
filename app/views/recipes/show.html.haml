@@ -1,0 +1,340 @@
+%p
+.row
+  .small-12.large-8.small-centered.large-centered.column.whitewash
+
+    %p
+    .upper
+      Project
+      =@recipe.project.name    
+    %h2.fine.blue.center.lower
+      =@recipe.name
+    %p      
+    .upper
+      Versions
+    %ul.tabs#version-tabs{"data-tabs"=>true}
+      -@recipe.versions_available.each_with_index do |rr,i|
+        -if rr.id == @recipe.last_promoted.id
+          %li.tabs-title.is-active
+            %a{:href=>"#panel"+i.to_s, "aria-selected"=>"true"}
+              .badge
+                =rr.version_number
+
+        -else
+          %li.tabs-title
+            %a{:href=>"#panel"+i.to_s}
+              .badge
+                =rr.version_number
+
+    .tabs-content{"data-tabs-content"=>"version-tabs"}
+      -@recipe.versions_available.each_with_index do |rr,i|   
+        .tabs-panel{:id=>"panel"+i.to_s, :class=> (rr.id == @recipe.last_promoted.id) ? "is-active": ""}
+
+          #recipe_photos
+            .row
+              .small-12.column
+                -rr.photos.each do |photo|
+                  %a{"data-open"=>"photoModal"+photo.id.to_s}
+                    %img{:id=>"rating_photos", :style=>" width: 100px;", :src=>photo.attachment.url(:square)}
+
+                  .reveal.tiny{:id=>"photoModal"+photo.id.to_s, "data-reveal"=>true}
+                    %img{:style=>" width: 100%;", :src=>photo.attachment.url(:large)}
+
+                  
+          -if rr.photos.present?
+            %hr
+          #recipe_body
+            - rb = rr.body_by_lines
+            -rb.each do |i,line|
+              .row.body_line{"data-line-id"=>i, :id=>"body_line"+i.to_s, "data-has-comments" => (line["comment"].present? ? "true" : "false")}
+                .small-1.large-1.column
+
+                  -if line["text"].present? 
+                    -if line["comment"].present? 
+                      .comment_icon{"data-icon-id"=>i, :id=>"comment_icon"+i.to_s}
+                        %i.fi-comment{:title=>"See Feedback"}              
+                    -else
+                      .comment_icon.invisible{"data-icon-id"=>i}
+                        %i.fi-comment{:title=>"Add Feedback"} 
+                    
+                    .comments.hidden{"data-comments-id"=>i, :style=>"z-index: 700; position: absolute; left: 5px; border: 1px solid #ccc; padding: 20px;  max-width: 300px; width: 300px; background: white;"}
+                      .upper
+                        Feedback
+                      %hr
+                        .comment_list{:id=>"comment_list"+i.to_s}
+                          =render :partial => 'line_comments', locals: {line: line, i: i, most_recent: rr} 
+                  -else
+                    &nbsp;
+                    %br
+                .small-11.large-11.column
+                  =line["text"]
+
+
+                %p
+            %p
+            %hr
+            -if rr.notes_from_author.present?
+              .upper.em
+                Notes from the author
+              =rr.notes_from_author
+
+            %p
+            %hr
+            %h4.blue
+              Your Results
+            -your_rating = current_user.rev_rating(rr)
+
+            = form_for(your_rating, html: { :remote=>true,  :multipart => true }) do |f|
+              =f.hidden_field :recipe_revision_id, :value=>rr.id
+              =f.hidden_field :user_id, :value=>current_user.id
+              =hidden_field_tag :authenticity_token, form_authenticity_token
+
+              =f.text_field :time_to_make
+              =f.text_field :servings_made
+
+              .row
+                .small-6.column
+                  %label Overall Satisfaction
+                  - if !your_rating.overall_satisfaction.present?
+                    -your_rating.overall_satisfaction = 0
+                  %h2
+                    -(1..5).each_with_index do |star, i|
+                      -if your_rating.overall_satisfaction > i
+                        %span.blue
+                          %i.fi-star.sat_rating{"data-star-number"=>i+1}
+                      -else
+                        %span.grey
+                          %i.fi-star.sat_rating{"data-star-number"=>i+1}    
+
+                  =f.hidden_field :overall_satisfaction
+
+                .small-6.column
+
+                  %label Would You Make It Again?
+                  - if !your_rating.would_make_again.present?
+                    -your_rating.would_make_again = 0
+                  %h2
+                    -(1..5).each_with_index do |star, i|
+                      -if your_rating.would_make_again > i
+                        %span.blue
+                          %i.fi-star.make_again{"data-star-number"=>i+1}
+                      -else
+                        %span.grey
+                          %i.fi-star.make_again{"data-star-number"=>i+1}    
+
+                  =f.hidden_field :would_make_again
+
+
+              %label Your Comments
+
+              %textarea{:id=>"overall_notes", :name=>"recipe_rating[overall_notes]", :placeholder=>"Add your overall thoughts on this recipe here."}
+                = your_rating.overall_notes
+
+
+              %hr
+              %h5.blue Your Photos
+              -your_rating.photos.each do |photo|
+                %a{"data-open"=>"photoModal"+photo.id.to_s}
+                  %img{:id=>"rating_photos", :style=>" width: 100px;", :src=>photo.attachment.url(:square)}
+
+                .reveal.tiny{:id=>"photoModal"+photo.id.to_s, "data-reveal"=>true}
+                  %img{:style=>" width: 100%;", :src=>photo.attachment.url(:large)}
+
+
+              %p
+              .callout
+                Add a photo
+                .row
+                  .small-6.column
+                    = file_field_tag 'photo', 'data-filename-placement'=>"inside", :class=>"file-input", :id=>"recipe_photo"
+                    %p
+                    .small.darkgrey
+                      By uploading a file you agree that you have appropriate rights to post it. 
+
+                  .small-3.column
+                    %img{:id=>"photo_preview"}
+              
+
+              = f.submit "Update"
+
+:javascript
+  $(document).ready(function() {
+
+    var open_comment_box;
+
+    $('.body_line').on("mouseover", function(e){
+      var icon = $( this ).find(".comment_icon");
+      icon.removeClass("invisible");
+         
+    })
+
+    $('.body_line').on("mouseout", function(e){
+      var icon = $( this ).find(".comment_icon");
+      if(!$(this).data("has-comments")){
+        icon.addClass("invisible");
+      }
+         
+    })
+
+    $('.body_line').on("click", function(e){
+      event.stopPropagation(e);
+      if(open_comment_box){
+        open_comment_box.addClass("hidden");
+      }
+      var comments = $( this ).find(".comments");
+      console.log(comments.data("comments-id"));
+      open_comment_box = comments;
+      comments.removeClass("hidden");
+    })
+
+
+    $('.comment_icon').on("click", function(e){
+      event.stopPropagation(e);
+      if(open_comment_box){
+        open_comment_box.addClass("hidden");
+      }
+      var comments = $( this ).parent().find(".comments");
+      console.log(comments.data("comments-id"));
+      open_comment_box = comments;
+      comments.removeClass("hidden");
+    })
+
+
+
+
+
+    $('.sat_rating').on("mouseover", function(e){
+      var highest_rating = $( this ).data("star-number");
+      $( ".sat_rating" ).each(function() {
+        if($( this ).data("star-number") <= highest_rating){
+          $( this ).addClass( "blue" );
+        }
+        else{
+          $( this ).removeClass( "blue");
+          $( this ).addClass( "grey" );
+        }
+      });
+    })
+
+    $('.sat_rating').on("mouseout", function(e){
+      var highest_rating = $('#recipe_rating_overall_satisfaction').val();
+      $( ".sat_rating" ).each(function() {
+        if($( this ).data("star-number") <= highest_rating){
+          $( this ).addClass( "blue" );
+        }
+        else{
+          $( this ).removeClass( "blue");
+          $( this ).addClass( "grey" );
+        }
+      });
+    })
+
+      $('.sat_rating').on("click", function(e){
+      var highest_rating = $( this ).data("star-number");
+      $( ".sat_rating" ).each(function() {
+        if($( this ).data("star-number") <= highest_rating){
+          $( this ).addClass( "blue" );
+        }
+        else{
+          $( this ).removeClass( "blue");
+          $( this ).addClass( "grey" );
+        }
+      });
+      $('#recipe_rating_overall_satisfaction').val(highest_rating);
+    })
+
+
+    $('.make_again').on("mouseover", function(e){
+      var highest_rating = $( this ).data("star-number");
+      $( ".make_again" ).each(function() {
+        if($( this ).data("star-number") <= highest_rating){
+          $( this ).addClass( "blue" );
+        }
+        else{
+          $( this ).removeClass( "blue");
+          $( this ).addClass( "grey" );
+        }
+      });
+    })
+
+    $('.make_again').on("mouseout", function(e){
+      var highest_rating = $('#recipe_rating_would_make_again').val();
+      $( ".make_again" ).each(function() {
+        if($( this ).data("star-number") <= highest_rating){
+          $( this ).addClass( "blue" );
+        }
+        else{
+          $( this ).removeClass( "blue");
+          $( this ).addClass( "grey" );
+        }
+      });
+    })
+
+      $('.make_again').on("click", function(e){
+      var highest_rating = $( this ).data("star-number");
+      $( ".make_again" ).each(function() {
+        if($( this ).data("star-number") <= highest_rating){
+          $( this ).addClass( "blue" );
+        }
+        else{
+          $( this ).removeClass( "blue");
+          $( this ).addClass( "grey" );
+        }
+      });
+      $('#recipe_rating_would_make_again').val(highest_rating);
+    })
+
+
+
+    $('html').on("click", function(e){
+      if(open_comment_box){
+        open_comment_box.addClass("hidden");
+      }
+    })
+
+
+
+    $('.comments').on("click", function(e){
+      event.stopPropagation(e);
+    })
+
+
+
+
+    $('.trash_icon').on("click", function(e){
+
+      var commentline = $("#comment_line"+$(this).data("comment-id"));
+      $.ajax({
+       type: "GET",
+       dataType: 'text',
+       url: "/recipe_notes/remove?id="+$(this).data("comment-id"),
+       success: function(data,status,xhr) {
+        commentline.fadeOut('slow');
+       },
+       error: function (xhr,status,error) {
+              
+        }   
+      });
+        
+    });
+
+    $('.file-input').on("change", function(e){
+      getImage(this);
+    })
+
+    function getImage(input) {
+
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+          $('img#photo_preview')
+          .attr('src', e.target.result)
+          .width('200px;')
+         };
+       reader.readAsDataURL(input.files[0]);
+      }
+    }
+
+
+  });
+
+

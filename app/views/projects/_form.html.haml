@@ -1,0 +1,17 @@
+= form_for(project, html: { :remote=>true }) do |f|
+  =f.hidden_field :user_id, :value=>current_user.id        
+
+  =f.text_field :name     
+
+  =f.date_field :test_deadline, :label=>"Testing Deadline"     
+
+
+  .upper
+    Testing Terms
+  %textarea{:id=>"terms", :name=>"project[terms]", :placeholder=>"Add the terms of testing this recipe. You can include things like what the testers get for participating (name in your book? payment? copy of the book?), blackout dates for sharing recipes online or with friends, or any other things you need the tester to agree to before they start testing.", :style=>"border: 0px solid white; box-shadow: inset 0 0px 0px rgba(51, 51, 51, 0.1); height: 300px;"}
+    =@project.terms
+
+  -if project.id.present?
+    = f.submit "Update"
+  -else
+    = f.submit "Add"

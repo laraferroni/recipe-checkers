@@ -1,0 +1,4 @@
+$("#revision").removeClass("hidden");
+$("#recipe_revision_recipe_id").val("<%= @recipe.id%>");
+$("#recipe_info").html("<%= escape_javascript(render partial: '/recipes/recipe_form', locals: {recipe: @recipe, project: @project} ) %>");
+

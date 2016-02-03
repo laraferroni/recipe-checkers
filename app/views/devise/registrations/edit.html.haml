@@ -1,0 +1,97 @@
+%p
+.row
+  .small-11.large-9.small-centered.large-centered.column.whitewash
+
+    %p
+    %h2.fine.blue.center.lower
+      Tell Us About Yourself
+    %p
+
+    .content#panel11.panel.active
+      .row
+        .column.small-11.small-centered
+
+          = form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
+
+            = f.text_field :first_name, autofocus: true
+            = f.text_field :last_name, autofocus: true     
+            = f.email_field :email
+
+            - if devise_mapping.confirmable? && resource.pending_reconfirmation?
+              %div
+                Currently waiting confirmation for: #{resource.unconfirmed_email}
+            
+            .text-right
+              %a.button#change_password
+                Change Password
+            
+            #password.hidden    
+              = f.password_field :password, autocomplete: "off"
+              .small
+                %i (leave blank if you don't want to change it)
+                %p
+              = f.password_field :password_confirmation, autocomplete: "off"
+              = f.password_field :current_password, autocomplete: "off"
+              .small
+                %i (we need your current password to confirm your changes)
+
+            = f.text_field :website, :class=>"url"
+
+            %hr
+
+            Are you a tester?
+            .switch.large  
+              %input#tester.switch-input{:type=>"checkbox", :checked=>resource.tester, :name=>"user[tester]"}
+              %label.switch-paddle{:for=>"tester"}
+                %span.show-for-sr Are you a tester?
+                %span.switch-active{"aria-hidden"=>"true"}Yes
+                %span.switch-inactive{"aria-hidden"=>"true"}No
+
+            .bio#tester_bio{:class=>(resource.tester) ? "" : "hidden"}
+              %label Tester Bio
+              %textarea{:id=>"bio", :name=>"user[tester_bio]", :placeholder=>"Add your testing experience here, so the authors get to know you. Please add any dietary restrictions.", :style=>"height: 300px;"}
+                =resource.tester_bio
+            %p
+
+            Are you an author?
+
+            .switch.large  
+              %input#author.switch-input{:type=>"checkbox", :checked=>resource.author, :name=>"user[author]"}
+              %label.switch-paddle{:for=>"author"}
+                %span.show-for-sr Are you an author?
+                %span.switch-active{"aria-hidden"=>"true"}Yes
+                %span.switch-inactive{"aria-hidden"=>"true"}No
+
+            .bio#author_bio{:class=> (!resource.author) ? "hidden" : ""}
+              %label Author Bio
+
+              %textarea{:id=>"bio", :name=>"user[author_bio]", :placeholder=>"Here's your chance to let testers know a little about you.", :style=>"height: 300px;"}
+                =resource.author_bio
+
+
+            .actions
+
+              = f.submit "Update"
+          %hr
+          %p
+            #{button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, :class=>"button"}
+
+
+
+          
+
+
+.div{:style=>"position: fixed; top: -5px; height: 100%; min-width: 100%; z-index: -1;"}
+  %img{:src => image_path("soup.jpg"), :alt => "", :style=>'min-height: 100%; min-width: 100%;'}
+
+
+:javascript
+
+  $('#tester').on("click", function(e){
+    console.log("test");
+    $('#tester_bio').toggle( );
+  })
+
+  $('#author').on("click", function(e){
+    $('#author_bio').toggle(  );
+  })

@@ -1,0 +1,5 @@
+$("#finalize").removeClass("hidden");
+$("#test_link").prop("href","/recipe_revisions/promote?id=<%=@recipe_revision.id.to_s%>");
+$("#photos").html("<%= escape_javascript(render partial: '/recipes/photo', locals: {recipe_revision: @recipe_revision} ) %>");
+
+$('#updating').foundation('close');

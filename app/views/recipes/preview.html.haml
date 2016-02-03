@@ -1,0 +1,31 @@
+%p
+.row
+  .small-12.large-8.small-centered.large-centered.column.whitewash
+
+    %p
+    .upper
+      %h3.blue
+        =@recipe.name  
+
+    - if current_user.black_listed(@recipe)
+      %h3
+        Sorry, that recipe is no longer available. 
+    -else
+
+      #about_author.callout
+
+        About
+        =@author.name
+        %br
+        =simple_format(@author.author_bio)
+        %br
+        -if @author.website.present?
+          %a{:href=>@author.website.html_safe, :target=>"_blank"}
+            =@author.website.html_safe 
+
+
+      #recipe_info
+        =simple_format(@recipe.project.terms)
+
+      %a.button{:href=>"/recipes/apply?id="+@recipe.id.to_s}
+        I'm good with that. Sign me up!

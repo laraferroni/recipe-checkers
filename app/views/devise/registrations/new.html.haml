@@ -1,0 +1,60 @@
+%p
+.row
+  .small-11.large-5.small-centered.large-centered.column
+
+    %p
+    %h2.fine.blue.center.lower
+      -if session[:temp_user_prefs].present?
+        Save Your Profile
+      -else
+        Join the Recipe Checkers
+
+    %p
+
+
+    .panel.center
+
+      .row
+        .columns.small-11.small-centered
+          .row
+            - if devise_mapping.omniauthable?
+
+              = link_to(omniauth_authorize_path(resource_name, "facebook")) do
+                %button.split.facebook.button.upper.white
+                  Sign Up With Facebook
+                  %span
+                    %i
+
+              = link_to(omniauth_authorize_path(resource_name, "twitter")) do
+                %button.split.twitter.button.upper.white
+                  Sign Up With Twitter
+                  %span
+                    %i
+
+              .small.darkgrey
+                We'll never post anything without your permission.
+          %p
+          .row
+            .small-5.columns 
+              %hr
+            .small-2.columns
+              %h3.darkgrey
+                OR
+            .small-5.columns 
+              %hr
+
+          .row
+            = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
+
+              .field
+                = f.email_field :email, autofocus: true
+              .field
+                = f.password_field :password, autocomplete: "off"
+              .field
+                = f.password_field :password_confirmation, autocomplete: "off"
+              .actions
+                = f.submit "Sign up", :class=>"button upper", :style=>"width: 100%;"
+          = render "devise/shared/links"
+.div{:style=>"position: fixed; top: -5px; height: 100%; min-width: 100%; z-index: -1;"}
+  %img{:src => image_path("mixer1.jpg"), :alt => "", :style=>'min-height: 100%; min-width: 100%;'}
+

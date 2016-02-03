@@ -1,0 +1,37 @@
+%p
+.row
+  .small-12.large-8.small-centered.large-centered.column.whitewash
+
+    %p
+    .div
+      %h5.blue
+
+        %p
+        Hi! I'd love to test 
+        #{@recipe.name}! 
+
+        %p
+        Here's a little about me:
+        %p
+      %h5.darkgrey        
+        =@tester.tester_bio 
+      %h5.blue
+        %p
+        Thanks!
+        %br
+        =@tester.name
+
+      %p
+      %hr
+    .upper
+      %a.button{:href=>"/recipes/approved?id="+@recipe.id.to_s+"&tester="+@tester.id.to_s}
+        Sweet. Approve them for this recipe.
+
+
+      %a.button.success{:href=>"/users/whitelist?tester="+@tester.id.to_s}
+        =@tester.name
+        is awesome. Auto-Approve for any of my recipes!
+
+      %a.button.warning{:href=>"/users/blacklist?tester="+@tester.id.to_s}
+        I'd rather not have this person testing. Please hide further requests.
+

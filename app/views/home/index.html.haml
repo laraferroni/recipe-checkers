@@ -1,0 +1,77 @@
+.row
+  .small-12.columns
+    .center
+      %h1.blue.fine
+        recipe checkers
+
+.row.medium-uncollapse.large-collapse
+  .small-12.columns.sheer.center{:style=>"position: absolute; top: 170px; left: 0px;  z-index: 999; width: 100%; height: 400px;  padding-top: 80px;"}
+    %h3.lower
+      Making Recipes Better
+      %p
+    -if current_user.present?
+      %a.button.white{:href=>"users/dashboard"} 
+        Start Testing     
+    -else
+      %a.button.white{:href=>"users/sign_up"} 
+        Start Testing 
+.slide{:id=>"slide", :style=>"width: 100%;"}
+  .item.active{:style=>"height: 400px;"}
+    %img{:src => image_path("flours.jpg"), :alt => "", :width=>'100%'}
+  .item{:style=>"height: 400px;"}
+    %img{:src => image_path("doughs1.jpg"), :alt => "", :width=>'100%'}
+  .item{:style=>"height: 400px;"}
+    %img{:src => image_path("mixer2.jpg"), :alt => "", :width=>'100%'}
+
+
+.gap{:style=>"height: 40px;"}
+
+.about
+  .row
+    .small-6.large-6.columns
+      %h4.lower
+        What is Recipe Checkers?
+      .darkgrey.bigger
+        %p
+        As a cookbook author, I want my recipes to be as good as possible... which means not only countless hours in my own kitchen testing, but also enlisting the help of recipe testers in the community who want to help. 
+        %p
+        The trick comes in finding those testers and managing the feedback. A typical cookbook needs testers for somewhere between 50 & 100 recipes, with multiple testers on each recipe. This has typically been done via emails or word docs, making it  burdensome for both the testers entering the feedback and the author tring to incorporate the feedback to improve their work. 
+
+        %p
+        Recipe Checkers is the solution. 
+        %p
+
+
+
+    .small-6.large-6.columns
+      %h4.lower
+        How to Recipe Checkers Works
+      .darkgrey.bigger
+        %p
+        As a tester, you simply sign up for recipe testing, agreeing to the terms of the author. 
+        %p
+        Once approved, you'll see the recipe online, and it's easy to enter your feedback directly on the recipe. You can see what other tester's found with the same recipe. You can ask questions about the recipe as you go. You can even post a photo of your finished dish, so the author knows if it turned out as they expected it to. 
+
+        %p
+        For authors, just add your recipes and post them, and we'll let our testers know they are ready to go. You approve all testers for your recipes, and see all recipe feedback in one place, instead of having to parse together hundreds of pieces of feedback. You can even rate the quality of the reviews.
+ 
+
+  %hr
+  .row
+    .small-12.large-6.columns
+      %h4.lower.center
+
+
+      .panel
+        .columns.small-12.small-centered
+          %ul.small-block-grid-3
+    .small-12.large-6.columns
+      %h4.lower.center
+
+:javascript
+
+    $(document).ready(function(){
+      $('#slide').slick({
+        autoplay: true
+      });
+    });

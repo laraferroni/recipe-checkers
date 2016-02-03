@@ -1,0 +1,49 @@
+Do you have a photo for your testers of what the dish should look like?
+%br
+-recipe_revision.photos.each do |photo|
+  %a{"data-open"=>"photoModal"+photo.id.to_s}
+    %img{:id=>"rating_photos", :style=>" width: 100px;", :src=>photo.attachment.url(:square)}
+
+  .reveal.tiny{:id=>"photoModal"+photo.id.to_s, "data-reveal"=>true}
+    %img{:style=>" width: 100%;", :src=>photo.attachment.url(:large)}
+    %a#remove{"data-photo-id"=>photo.id}
+      %i.fi-trash
+      Remove this photo
+
+%p
+.callout
+  Add a photo
+  .row
+    .small-9.column
+      = file_field_tag 'photo', 'data-filename-placement'=>"inside", :class=>"file-input", :id=>"recipe_photo"
+      %p
+      .small.darkgrey
+        By uploading a file you agree that you have appropriate rights to post it. 
+
+    .small-3.column
+      %img{:id=>"photo_preview"}
+
+:javascript
+
+  $('.file-input').on("change", function(e){
+    getImage(this);
+  });
+
+
+
+
+
+  function getImage(input) {
+
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+      reader.onload = function (e) {
+        $('img#photo_preview')
+        .attr('src', e.target.result)
+        .width('200px;')
+       };
+     reader.readAsDataURL(input.files[0]);
+    }
+  }
+
+

@@ -1,0 +1,16 @@
+%p
+.row
+  .small-12.large-8.small-centered.large-centered.column.whitewash
+
+    %p
+    .upper
+      %h3.blue
+        =@recipe.name  
+      -if current_user.pending_approval(@recipe.id)
+        Pending Approval
+        %p
+        You'll be notified when you can start testing.
+      -else
+        You are approved! This recipe will now appear in your 
+        %a{:href=>"/users/dashboard"}recipe list.
+      %p

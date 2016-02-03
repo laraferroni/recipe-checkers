@@ -1,0 +1,26 @@
+-if line["comment"].present?
+  -line["comment"].each do |comment|
+
+    -if !comment.hide
+      .div{:id=>"comment_line"+comment.id.to_s}
+        -if comment.user.present?
+          =comment.user.name
+
+
+        %br
+        .small.fine
+          =nice_date(comment.updated_at.localtime)
+        %br   
+        =comment.notes
+        .text-right
+          -if comment.user == current_user
+            %i.fi-trash.trash_icon{:title=>'Remove this comment', :id=>'trash_icon'+i.to_s, "data-comment-id"=>comment.id, "data-line-id"=>i.to_s} 
+        %p
+        %hr
+
+= form_for(RecipeNote.new, html: { :remote=>true }) do |f|
+  =f.hidden_field :line_id, :value=> i
+  =f.hidden_field :recipe_revision_id, :value=>most_recent.id
+  =f.hidden_field :user_id, :value=>current_user.id
+  %textarea{:id=>"notes", :name=>"recipe_note[notes]", :placeholder=>"Add your comment here.", :style=>"border: 0px solid white; box-shadow: inset 0 0px 0px rgba(51, 51, 51, 0.1);"}
+  = f.submit "Update"
