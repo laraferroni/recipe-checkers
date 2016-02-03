@@ -16,16 +16,19 @@
         =f.text_field :recipe_servings
         =f.hidden_field :version_number
 
-        %textarea{:id=>"notes", :name=>"recipe_revision[recipe_body]", :placeholder=>"Add your recipe here. Include the headnote, ingredients list and method.", :style=>"border: 0px solid white; box-shadow: inset 0 0px 0px rgba(51, 51, 51, 0.1); height: 300px;"}
+        %textarea{:id=>"recipe_body", :name=>"recipe_revision[recipe_body]", :placeholder=>"Add your recipe here. Include the headnote, ingredients list and method.", :style=>"border: 0px solid white; box-shadow: inset 0 0px 0px rgba(51, 51, 51, 0.1); height: 300px;"}
+
+        %textarea{:id=>"notes", :name=>"recipe_revision[notes_from_author]", :placeholder=>"Do you have notes for the testers? Add them here.", :style=>"border: 0px solid white; box-shadow: inset 0 0px 0px rgba(51, 51, 51, 0.1); height: 300px;"}
         
-        =f.text_field :notes_from_author
         
         = f.submit "Update"
 
-    #finalize.hidden  
+
+    #finalize.hidden
+      %hr  
       %h3
         Ready for Testers?
       When you are ready to send to testers, we'll add it to our recipe tester queue so testers can sign up. Once you submit a recipe for testing, this version will be locked. If you need to update it, create a new revision.
-
+      %p
       %a.button "Ask for Testers"
 
