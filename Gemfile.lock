@@ -17,14 +17,6 @@ GIT
       safe_yaml (~> 1.0)
       sass-rails (>= 4.0, < 6)
 
-GIT
-  remote: git@github.com:Nerian/google-id-token.git
-  revision: 5f92faa6b9737ef9bbc49cb6ad5190147f280569
-  specs:
-    google-id-token (1.2.0)
-      jwt
-      multi_json
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -358,7 +350,6 @@ DEPENDENCIES
   foundation-icons-sass-rails
   foundation-rails
   foundation_rails_helper
-  google-id-token!
   gravatar_image_tag
   haml-rails
   jbuilder (~> 2.0)

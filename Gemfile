@@ -21,7 +21,6 @@ group :auth, :default do
   gem 'omniauth-google-oauth2'
   gem 'omniauth-twitter'
   gem 'twitter'
-  gem 'google-id-token', git: 'git@github.com:Nerian/google-id-token.git'
 end
 
 group :asset, :default do
