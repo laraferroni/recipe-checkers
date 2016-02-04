@@ -5,6 +5,6 @@ class Project < ActiveRecord::Base
 
 
 	def days_to_complete
-		self.test_deadline.to_date - Date.today
+		(self.test_deadline.to_date - Date.today).to_i
 	end
 end
