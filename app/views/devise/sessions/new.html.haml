@@ -4,7 +4,7 @@
 
     %p
     %h2.fine.blue.center.lower
-      Join the Recipe Checkers
+      Welcome Back!
     %p
 
 
@@ -31,13 +31,17 @@
 
 
 .div{:style=>"position: fixed; top: -5px; height: 100%; min-width: 100%; z-index: -1;"}
-  %img{:src => image_path("kinfolkpantry.jpg"), :alt => "", :style=>'min-height: 100%; min-width: 100%;'}
+  %img{:src => image_path("soup.jpg"), :alt => "", :style=>'min-height: 100%; min-width: 100%;'}
 
 
 :javascript
 
-    $(document).ready(function(){
-      $('#slide').slick({
-        autoplay: true
-      });
-    });    
+  $(document).ready(function(){
+
+    $('#slide').slick({
+      autoplay: true
+    });
+
+
+
+  });    

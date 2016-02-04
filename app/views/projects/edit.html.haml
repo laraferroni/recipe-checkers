@@ -8,3 +8,14 @@
     #project_info
       =render :partial => 'form', locals: {project: @project}
 
+
+.reveal.tiny{:id=>"updating", "data-reveal"=>true}
+  %h4.blue
+    %i.fa.fa-cog.fa-spin
+    Updating...
+
+:javascript
+  $('.edit_project').on("submit", function(e){
+    $('#updating').foundation('open').delay( 400 );
+
+  })

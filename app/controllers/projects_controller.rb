@@ -34,6 +34,8 @@ class ProjectsController < ApplicationController
       format.js
     end  
 
+    redirect_to controller: :users, action: :dashboard
+
   end
 
   def update
