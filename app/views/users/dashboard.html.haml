@@ -21,8 +21,7 @@
               Deadline:
               =nice_date(project.test_deadline.localtime) 
               (
-              =Date.today
-              =project.test_deadline.to_date
+
               =(project.test_deadline.to_date - Date.today).to_i
               days left
               )
