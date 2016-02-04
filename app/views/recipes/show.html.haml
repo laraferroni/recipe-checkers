@@ -16,13 +16,13 @@
         -if rr.id == @recipe.last_promoted.id
           %li.tabs-title.is-active
             %a{:href=>"#panel"+i.to_s, "aria-selected"=>"true"}
-              .badge
+              .badge{:class=> (rr.has_comments(current_user).present?) ? "success": ""}
                 =rr.version_number
 
         -else
           %li.tabs-title
             %a{:href=>"#panel"+i.to_s}
-              .badge
+              .badge{:class=> (rr.has_comments(current_user).present?) ? "success": ""}
                 =rr.version_number
 
     .tabs-content{"data-tabs-content"=>"version-tabs"}

@@ -11,6 +11,11 @@ class RecipeRevision < ActiveRecord::Base
 		name = self.version_number
 	end
 
+
+	def has_comments(user)
+		self.recipe_ratings.where("user_id = ?", user.id)
+	end
+
 	def body_by_lines
 		lines = self.recipe_body.split(/\r?\n/)
 
