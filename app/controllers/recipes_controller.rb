@@ -65,7 +65,7 @@ class RecipesController < ApplicationController
     set_recipe
     tr = TesterRecipe.where("user_id = ? and recipe_id = ?", current_user.id, @recipe.id).first
     tr.destroy!
-    redirect_to controller: :users, action: :dashboard
+    redirect_to controller: :users, action: :dashboarda
   end
 
 

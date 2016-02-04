@@ -176,120 +176,120 @@
 
 :javascript
 
-  var open_comment_box;
+  $(document).ready(function(){
+    var open_comment_box;
 
-  $('.body_line').on("click", function(e){
-    event.stopPropagation(e);
-    if(open_comment_box){
-      open_comment_box.addClass("hidden");
-    }
-    var comments = $( this ).find(".comments");
-    console.log(comments.data("comments-id"));
-    open_comment_box = comments;
-    comments.removeClass("hidden");
-  })
-
-
-  $('.comment_icon').on("click", function(e){
-    event.stopPropagation(e);
-    if(open_comment_box){
-      open_comment_box.addClass("hidden");
-    }
-    var comments = $( this ).parent().find(".comments");
-    console.log(comments.data("comments-id"));
-    open_comment_box = comments;
-    comments.removeClass("hidden");
-  })
-
-  $('.edit_recipe').on("submit", function(e){
-    $('#updating').foundation('open').delay( 400 );
-  })
-
-  $('.edit_recipe_revision').on("submit", function(e){
-    $('#updating').foundation('open').delay( 400 );
-  })
-
-  $('html').on("click", function(e){
-    if(open_comment_box){
-      open_comment_box.addClass("hidden");
-    }
-  })
-
-  $('.reviewer_stars').on("mouseover", function(e){
-    console.log("on")
-    var highest_rating = $( this ).data("star-number");
-    $( ".reviewer_stars" ).each(function() {
-      if($( this ).data("star-number") <= highest_rating){
-        $( this ).addClass( "blue" );
+    $('.body_line').on("click", function(e){
+      event.stopPropagation(e);
+      if(open_comment_box){
+        open_comment_box.addClass("hidden");
       }
-      else{
-        $( this ).removeClass( "blue");
-        $( this ).addClass( "grey" );
-      }
-    });
-  })
-
-  $('.reviewer_stars').on("mouseout", function(e){
-    var highest_rating = $('#reviewer_rating').val();
-    $( ".reviewer_stars" ).each(function() {
-      if($( this ).data("star-number") <= highest_rating){
-        $( this ).addClass( "blue" );
-      }
-      else{
-        $( this ).removeClass( "blue");
-        $( this ).addClass( "grey" );
-      }
-    });
-  })
-
-    $('.reviewer_stars').on("click", function(e){
-    var highest_rating = $( this ).data("star-number");
-    $( ".reviewer_stars" ).each(function() {
-      if($( this ).data("star-number") <= highest_rating){
-        $( this ).addClass( "blue" );
-      }
-      else{
-        $( this ).removeClass( "blue");
-        $( this ).addClass( "grey" );
-      }
-    });
-    rating = $( this ).parent().parent().find("#reviewer_rating")
-    rating.val(highest_rating);
-    $.ajax({
-     type: "GET",
-     dataType: 'text',
-     url: "/recipe_ratings/helpfulness?id="+rating.data("rating-id")+"&reviewer_rating="+rating.val(),
-     success: function(data,status,xhr) {
-     },
-     error: function (xhr,status,error) {
-            
-      }   
+      var comments = $( this ).find(".comments");
+      console.log(comments.data("comments-id"));
+      open_comment_box = comments;
+      comments.removeClass("hidden");
     });
 
-  })
 
-  $('#remove').on("click", function(e){
-
-    console.log('remove');
-    var id = $(this).data('photo-id');
-
-    $.ajax({
-      url: "#{photos_path}/"+id,
-      type: "POST", 
-      dataType: "HTML",
-      data: {"_method":"delete", "id":id},
-      success: function(data,status,xhr) {
-
-        $("#photos").html("#{ escape_javascript(render partial: '/recipes/photo', locals: {recipe_revision: @recipe_revision} ) }");
-
-      },
-      error: function (xhr,status,error) {
-
+    $('.comment_icon').on("click", function(e){
+      event.stopPropagation(e);
+      if(open_comment_box){
+        open_comment_box.addClass("hidden");
       }
-    }); 
+      var comments = $( this ).parent().find(".comments");
+      console.log(comments.data("comments-id"));
+      open_comment_box = comments;
+      comments.removeClass("hidden");
+    });
+
+    $('.edit_recipe').on("submit", function(e){
+      $('#updating').foundation('open').delay( 400 );
+    });
+
+    $('.edit_recipe_revision').on("submit", function(e){
+      $('#updating').foundation('open').delay( 400 );
+    });
+
+    $('html').on("click", function(e){
+      if(open_comment_box){
+        open_comment_box.addClass("hidden");
+      }
+    });
+
+    $('.reviewer_stars').on("mouseover", function(e){
+      console.log("on")
+      var highest_rating = $( this ).data("star-number");
+      $( ".reviewer_stars" ).each(function() {
+        if($( this ).data("star-number") <= highest_rating){
+          $( this ).addClass( "blue" );
+        }
+        else{
+          $( this ).removeClass( "blue");
+          $( this ).addClass( "grey" );
+        }
+      });
+    });
+
+    $('.reviewer_stars').on("mouseout", function(e){
+      var highest_rating = $('#reviewer_rating').val();
+      $( ".reviewer_stars" ).each(function() {
+        if($( this ).data("star-number") <= highest_rating){
+          $( this ).addClass( "blue" );
+        }
+        else{
+          $( this ).removeClass( "blue");
+          $( this ).addClass( "grey" );
+        }
+      });
+    });
+
+      $('.reviewer_stars').on("click", function(e){
+      var highest_rating = $( this ).data("star-number");
+      $( ".reviewer_stars" ).each(function() {
+        if($( this ).data("star-number") <= highest_rating){
+          $( this ).addClass( "blue" );
+        }
+        else{
+          $( this ).removeClass( "blue");
+          $( this ).addClass( "grey" );
+        }
+      });
+      rating = $( this ).parent().parent().find("#reviewer_rating")
+      rating.val(highest_rating);
+      $.ajax({
+       type: "GET",
+       dataType: 'text',
+       url: "/recipe_ratings/helpfulness?id="+rating.data("rating-id")+"&reviewer_rating="+rating.val(),
+       success: function(data,status,xhr) {
+       },
+       error: function (xhr,status,error) {
+              
+        }   
+      });
+
+    });
+
+
+    $('#remove').on("click", function(e){
+
+      var id = $(this).data('photo-id');
+      $('#photoModal'+id).foundation('close');
+
+      $.ajax({
+        url: "#{photos_path}/"+id,
+        type: "POST", 
+        dataType: "HTML",
+        data: {"_method":"delete", "id":id},
+        success: function(data,status,xhr) {
+          $('#photo_tile'+id).hide();
+        },
+        error: function (xhr,status,error) {
+
+        }
+      }); 
+    });
+
+    $('.comments').on("click", function(e){
+      event.stopPropagation(e);
+    });
   });
-
-
-  $('.comments').on("click", function(e){
-    event.stopPropagation(e);
-  })
