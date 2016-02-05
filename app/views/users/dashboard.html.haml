@@ -85,7 +85,7 @@
               -project.recipes.order("name").each do |recipe|
                 -if !recipe.users.present?
 
-                  %a{:href=>edit_recipe_path(recipe)}
+                  %a{:href=>edit_recipe_path(recipe), :class=>"#{ recipe.ready_to_test ? 'green' : ''}"}
                     =recipe.name
                     -if recipe.ready_to_test
                       %i.fi-check
