@@ -30,5 +30,5 @@
         Ready for Testers?
       When you are ready to send to testers, we'll add it to our recipe tester queue so testers can sign up. Once you submit a recipe for testing, this version will be locked. If you need to update it, create a new revision.
       %p
-      %a.button "Ask for Testers"
+      %a#test_link.button{:href=>"/recipe_revisions/promote?id="+@recipe_revision.id.to_s} Ask for Testers
 
