@@ -10,8 +10,11 @@ group :server, :default do
   gem 'sinatra' # for sidekiq web console
   gem 'puma'
   gem 'route_downcaser'
-  gem 'rails_12factor', group: :production
+  
 end
+group :production do
+  gem 'rails_12factor'
+end 
 
 group :auth, :default do
   gem 'cancan'

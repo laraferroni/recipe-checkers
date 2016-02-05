@@ -63,9 +63,14 @@ class RecipesController < ApplicationController
 
   def unsubscribe
     set_recipe
+    logger.debug(current_user.id)
+    logger.debug(@recipe.id)
+    logger.debug(TesterRecipe.where("user_id = ? and recipe_id = ?", current_user.id, @recipe.id).count)
     tr = TesterRecipe.where("user_id = ? and recipe_id = ?", current_user.id, @recipe.id).first
-    tr.destroy!
-    redirect_to controller: :users, action: :dashboarda
+    if tr.present?
+      tr.destroy!
+    end
+    redirect_to controller: :users, action: :dashboard
   end
 
 
