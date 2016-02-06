@@ -26,17 +26,19 @@
         %ul.top-bar-title
           %span{"data-responsive-toggle"=>"responsive-menu", "data-hide-for"=>"medium"}
             %span.menu-icon.dark{"data-toggle" => true}
-          %h6.blue.upper
-            %a{:href=>root_path}
-              Recipe Checkers
+          %ul.menu
+            %li
+              %a{:href=>root_path}
+                %span.upper
+                  Recipe Checkers
         #responsive-menu
           %section.top-bar-right
             %ul.menu
               
               -if current_user.present?
                 %li 
-                  %span.darkgrey.upper
-                    %a{:href=>"/users/dashboard"}
+                  %a{:href=>"/users/dashboard"}
+                    %span.darkgrey.upper
                       My Recipes
                 %li
                   =link_to(destroy_user_session_path, :method => :delete) do
@@ -64,25 +66,18 @@
 
 
 
-    .pad{:style=>"margin-top: 50px; margin-bottom: 200px;"}
+    .pad{:style=>"margin-top: 0px; margin-bottom: 150px;"}
       = yield
     %footer.footer
       .row
-        .small-6.large-3.small-centered
-          .white.upper.small
-            Follow:
 
-            %a{:href=>""}
-              %i.fi-social-facebook.white
-            %a{:href=>""}  
-              %i.fi-social-twitter.white
-            %a{:href=>""}  
-              %i.fi-social-pinterest.white
           
 
-        
-      .row
-        .small-12.small-centered.column.white
+        .small-12.column.text-right
+          %a.button{:href=>"https://recipecheckers.stamplayapp.com/", :title=>"Need Help? Want to chat with other testers?"}
+            %i.fa.fa-slack
+            Join our Slack channel
+
           .small
             © 2016 Lara Ferroni All Rights Reserved
 
