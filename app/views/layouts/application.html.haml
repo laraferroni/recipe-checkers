@@ -23,14 +23,12 @@
 
     .fixed
       .top-bar{"data-topbar"=>true, :role=>"navigation"}
-        %ul.top-bar-title
+        .top-bar-title
           %span{"data-responsive-toggle"=>"responsive-menu", "data-hide-for"=>"medium"}
             %span.menu-icon.dark{"data-toggle" => true}
-          %ul.menu
-            %li
-              %a{:href=>root_path}
-                %span.upper
-                  Recipe Checkers
+          %a{:href=>"/", :style=>"display: inline-block;"}
+            .upper
+              Recipe Checkers
         #responsive-menu
           %section.top-bar-right
             %ul.menu
