@@ -105,7 +105,7 @@ class RecipesController < ApplicationController
         @recipe_revision.recipe_body = last_version.recipe_body
         @recipe_revision.recipe_servings = last_version.recipe_servings
         @recipe_revision.notes_from_author = last_version.notes_from_author
-        
+        @recipe_revision.save!
         
       end
     end

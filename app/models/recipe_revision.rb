@@ -17,11 +17,13 @@ class RecipeRevision < ActiveRecord::Base
 	end
 
 	def body_by_lines
-		lines = self.recipe_body.split(/\r?\n/)
 
-
+		if self.recipe_body.present?
+			lines = self.recipe_body.split(/\r?\n/)
+		else
+			lines = []
+		end
 		Hash[ lines.each_with_index.map{ |c,i| [i,Hash["text"=>c,"comment"=>self.comments_by_line(i)]]} ]
-
 	end
 
 
