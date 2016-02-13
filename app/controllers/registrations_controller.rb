@@ -34,6 +34,10 @@ class RegistrationsController < Devise::RegistrationsController
 
   protected
 
+    def after_update_path_for(resource)
+      user_path(resource)
+    end
+
   def configure_permitted_parameters
     devise_parameter_sanitizer.for(:account_update).push(:first_name, :last_name, :author, :tester, :email, :tester_bio, :author_bio, :website)
   end

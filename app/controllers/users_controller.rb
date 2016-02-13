@@ -6,8 +6,8 @@ class UsersController < ApplicationController
   respond_to :html
 
   def index
-    @users = User.all
-    respond_with(@users)
+    @user = current_user
+    redirect_to controller: :registrations, action: :edit
   end
 
   def start

@@ -2,7 +2,7 @@ class RecipesController < ApplicationController
 
 	before_action :authenticate_user!
   before_action :set_recipe, only: [:show, :edit, :update, :destroy]
-
+  before_action :author_only, only: [:edit, :update, :destroy, :approve, :approved]
   respond_to(:html, :js)
 
   def index
@@ -42,8 +42,15 @@ class RecipesController < ApplicationController
     tr.recipe_id = @recipe.id
     tr.user_id = current_user.id
     tr.save
-    UserMailer.new_tester_application(current_user, @recipe)
+    UserMailer.delay.new_tester_application(current_user, @recipe)
   end
+
+  def author_only
+    set_recipe
+    if @recipe.user != current_user
+      render(:file => File.join(Rails.root, 'public/403.html'), :status => 403, :layout => false)
+    end
+  end 
 
   def approve
     set_recipe
@@ -57,7 +64,16 @@ class RecipesController < ApplicationController
     tr = TesterRecipe.where("user_id = ? and recipe_id = ?", @tester.id, @recipe.id).first
     tr.approved = true
     tr.save!
-    UserMailer.new_recipe_approved(@tester, @recipe)
+    UserMailer.delay.new_recipe_approved(@tester, @recipe)
+    redirect_to controller: :users, action: :dashboard
+  end
+
+  def rejected 
+    set_recipe
+    @tester =  User.find(params["tester"])
+    logger.debug(@tester.name)
+    tr = TesterRecipe.where("user_id = ? and recipe_id = ?", @tester.id, @recipe.id).first
+    tr.destroy!
     redirect_to controller: :users, action: :dashboard
   end
 

@@ -1,7 +1,46 @@
 %tr
   %td
-    %h1 Hi!
-    %p.lead Thanks for joining Recipe Checkers!
-    -@user
+    %h6 Hi!
+
     %p 
+    Thanks for helping make the world of recipes better! 
+    %p 
+
+    -if !@user.tester.present? && !@user.author.present?
+
+      %p.lead
+        Are you a tester, author or both?
+      %p
+      Be sure to set whether you are a recipe tester, recipe author, or both on
+      %a{:href=>@root_url+"users/edit"} your user info page. 
+      And, while you are there, set 
+      -if !@user.name.present?
+        your name and 
+      your tester or author bio!
+      %p
+      Once you select that, you'll get mail with more information about what to do next!
+
+    %p     
+    %hr
+    %p 
+    %p.lead
+      Something wrong with the website? 
+    %p
+    Please let me know! This is currently a very new site, so there are likely to be problems especially on non Mac browsers which are harder for me to test. The best way to let me know is via 
+    %a{:href=>"https://recipecheckers.stamplayapp.com/"}
+      the Slack chat. 
+    %p     
+    %hr
+    %p  
+
+    %p.lead
+      What's this Slack thing you keep talking about?
+    %p
+    %a{:href=>"https://slack.com/"}Slack
+    is a really cool service for groups to chat. There's an app, and a website, and it's pretty slick. I've got channels setup for cookbook announcements, testing best practices questions, website support, and random chat... but members can create their own channels, and you can private message other members as well. 
+    %a{:href=>"https://recipecheckers.stamplayapp.com/"}
+      Join the Recipe Checkers Slack chat. 
+
+    %p  
+
   %td.expander

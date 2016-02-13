@@ -1,0 +1,87 @@
+%tr
+  %td
+
+    %p 
+    %p.lead
+      Here's what you do to test recipes:
+    %p
+    When you log in, you'll see a link for 
+    %a{:href=>@root_url+"users/dashboard"} My Recipes 
+    at the top of the page. Or you can also just click on Start Testing from the home page. 
+
+    %p
+    From your My Recipes page, you'll see recipes that are available for testing. Click on one (or more!) that interests you, and see the author's terms... things like when you can talk about the recipe with others, or what you get for helping test (warning: most authors don't have much extra budget, so most likely, you'll be doing the testing for acknowledgement in the book.)
+    %p
+    Assuming you are good with the terms, click to apply. The author will then be notified which recipe you want to test. Once they approve, you'll be good to go. 
+    %p
+    Approved recipes will appear on your My Recipes page. Just click on the one you want to test, and you'll see the recipe.
+
+    -if !@user.tester_bio.present?
+      %p  
+      %hr
+      %p
+      %p.lead
+        Set your Tester Bio 
+      %p
+      Be sure to set your Tester bio on 
+      %a{:href=>@root_url+"users/edit"} your user info page. 
+      Your tester bio will be shown to authors when you apply for a recipe, and help them to know a little more about you! 
+
+    %p  
+    %hr
+    %p
+    %p.lead
+      Find an issue with the recipe? 
+    %p
+    Click on the line with the problem, and leave feedback on that line. 
+    %p
+    When you are done, give the recipe an overall rating and add any notes. Did you take a photo? Add it so the author can see exactly how it turned out. 
+    %p     
+    %hr
+    %p    
+    %p.lead
+      Sign up for a recipe, and aren't going to test? 
+    %p
+    Be sure to remove it from your recipe list, so the author can find a new tester. 
+
+    %p
+    %hr
+    %p
+    %p.lead
+      It's Beta (ie, it's not done yet)
+    %p
+    I've got the basics working on the website, but there are many features I'm still working on:
+    %p
+    %li Email to you when you are approved for a recipe (in progress!)
+    %li A way to print the recipe
+    %li A way to search the recipes
+    %li A way to set your preferences, so you only see recipes that apply (vegan, gluten free, etc.)
+    %p
+    What else would you like to see? Let me know on 
+    %a{:href=>"https://recipecheckers.stamplayapp.com/"}
+      the Slack chat. 
+
+    %p     
+    %hr
+    %p 
+    %p.lead
+      Something wrong with the website? 
+    %p
+    Please let me know! This is currently a very new site, so there are likely to be problems especially on non Mac browsers which are harder for me to test. The best way to let me know is via 
+    %a{:href=>"https://recipecheckers.stamplayapp.com/"}
+      the Slack chat. 
+    %p     
+    %hr
+    %p  
+
+    %p.lead
+      What's this Slack thing you keep talking about?
+    %p
+    %a{:href=>"https://slack.com/"}Slack
+    is a really cool service for groups to chat. There's an app, and a website, and it's pretty slick. I've got channels setup for cookbook announcements, testing best practices questions, website support, and random chat... but members can create their own channels, and you can private message other members as well. 
+    %a{:href=>"https://recipecheckers.stamplayapp.com/"}
+      Join the Recipe Checkers Slack chat. 
+
+    %p  
+
+  %td.expander

@@ -41,6 +41,7 @@
 
             Are you a tester?
             .switch.large  
+              =f.hidden_field :tester, :value=>"false"
               %input#tester.switch-input{:type=>"checkbox", :checked=>resource.tester, :name=>"user[tester]"}
               %label.switch-paddle{:for=>"tester"}
                 %span.show-for-sr Are you a tester?
@@ -56,6 +57,7 @@
             Are you an author?
 
             .switch.large  
+              =f.hidden_field :author, :value=>"false"
               %input#author.switch-input{:type=>"checkbox", :checked=>resource.author, :name=>"user[author]"}
               %label.switch-paddle{:for=>"author"}
                 %span.show-for-sr Are you an author?

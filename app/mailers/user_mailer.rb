@@ -8,27 +8,44 @@ class UserMailer <  Devise::Mailer
   default from: '"Recipe Checkers" <admin@recipecheckers.com>'
 
 
-  def tester_message(mail_to = "lara@laraferroni.com", subject="A message about the recipes you are testing")
-    mail(to: mail_to, subject: '')
+  def tester_message(project, message = "hi. just checking in. how's it going with the testing?")
+  	@message_from_author = message
+    @project = project
+    @root_url = root_url
+    logger.debug(@project.all_tester_emails.join(","))
+    mail(bcc: @project.all_tester_emails.join(","), subject: "RecipeCheckers message from #{@project.user.name}")
   end
 
-  def initial_welcome_mail(@user)
-  	mail(to: @user.email, subject: 'Welcome')
+  def initial_welcome_mail(user)
+  	@user = user
+    @root_url = root_url
+  	mail(to: @user.email, subject: 'Welcome to RecipeCheckers')
   end
 
-  def new_tester_welcome(@user)
+  def new_tester_welcome(user)
+  	@user = user
+  	@root_url = root_url
+    mail(to: @user.email, subject: 'How to Test with RecipeCheckers')
+  end
+
+  def new_author_welcome(user)
+  	@user = user  	
+  	@root_url = root_url  	
+    mail(to: @user.email, subject: 'How to Get Your Recipes Tested with RecipeCheckers')
+  end
+
+  def new_tester_application(user, recipe)
+  	@tester = user
+  	@recipe = recipe
+    @user = @recipe.user
+    @root_url = root_url
     mail(to: @user.email, subject: 'Welcome')
   end
 
-  def new_author_welcome(@user)
-    mail(to: @user.email, subject: 'Welcome')
-  end
-
-  def new_tester_application(@user, @recipe)
-    mail(to: @user.email, subject: 'Welcome')
-  end
-
-  def new_recipe_approved(@user, @recipe)
+  def new_recipe_approved(user, recipe)
+  	@user = user
+  	@recipe = recipe
+    @root_url = root_url
     mail(to: @user.email, subject: 'Welcome')
   end
 

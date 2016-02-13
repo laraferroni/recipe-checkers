@@ -1,8 +1,10 @@
+require 'sidekiq/web'
+
 Rails.application.routes.draw do
   
   admin_only = ->(request) { request.env['warden'].authenticate? and request.env['warden'].user.admin? }
   constraints(->(request) { admin_only.(request) }) do
-    get '/admin/tools' => "admin/tools#index"
+    mount Sidekiq::Web => '/sidekiq'
   end
 
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
@@ -17,6 +19,11 @@ Rails.application.routes.draw do
   delete "/users/auth/:provider" => "user_authentications#remove_auth", as: :user_omniauth_unauthorize
 
   root "home#index"
+
+  get "terms" =>"home#terms"
+  get "privacy" =>"home#privacy" 
+  get "unsubscribe" =>"home#unsubscribe"
+
   get "users/dashboard" => "users#dashboard"
   get "users/whitelist" => "users#whitelist"
   get "users/blacklist" => "users#blacklist"
@@ -28,6 +35,7 @@ Rails.application.routes.draw do
   get "recipes/apply" => "recipes#apply"
   get "recipes/approve" => "recipes#approve"
   get "recipes/approved" => "recipes#approved"
+  get "recipes/rejected" => "recipes#rejected"
   get "recipes/unsubscribe" => "recipes#unsubscribe"
   
   resources :recipes

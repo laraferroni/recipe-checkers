@@ -1,0 +1,12 @@
+%tr
+  %td
+    %h6 Hi!
+
+    %p 
+    You've been approved for testing
+    =@recipe.name
+    %p 
+    You can now 
+    %a{:href=>recipe_path(@recipe)} view the recipe and start testing!
+
+  %td.expander
