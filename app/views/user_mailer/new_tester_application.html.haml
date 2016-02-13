@@ -1,0 +1,12 @@
+%tr
+  %td
+    %h3 Hi!
+
+    %p 
+    You have a new tester for
+    =@recipe.name
+    %p 
+    
+    %a{:href=>@root_url+"recipes/approve?id="+@recipe.id.to_s+"&tester="+@tester.id.to_s} Log in to approve this tester.
+
+  %td.expander

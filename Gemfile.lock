@@ -258,6 +258,8 @@ GEM
     rdoc (4.2.1)
       json (~> 1.4)
     redis (3.2.2)
+    redis-namespace (1.5.2)
+      redis (~> 3.0, >= 3.0.4)
     remotipart (1.2.1)
     responders (1.1.2)
       railties (>= 3.2, < 4.2)
@@ -371,6 +373,7 @@ DEPENDENCIES
   rails (= 4.1.9)
   rails_12factor
   rails_admin!
+  redis-namespace
   remotipart (~> 1.2)
   roadie
   route_downcaser

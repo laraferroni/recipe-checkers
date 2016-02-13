@@ -71,7 +71,10 @@ end
 group :development, :default do
   gem 'better_errors'
   gem 'binding_of_caller'  
+  gem 'redis-namespace'
 end
+
+
 
 group :doc do
   gem 'sdoc', require: false # bundle exec rake doc:rails generates the API under doc/api.

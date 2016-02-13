@@ -4,7 +4,7 @@
     %h2.fine.blue.lower
       Your Projects
   %p
-  .text-right
+  .text-center
     %a.button{:href=>new_project_path()} 
       Add A Project
 
@@ -27,8 +27,15 @@
               )
         %p
         .center
-          %a.button{:href=>new_recipe_path()+"?project_id="+project.id.to_s} 
+          %a.button{:href=>new_recipe_path()+"?project_id="+project.id.to_s, :style=>"margin-right: 5px;"} 
             Add A Recipe
+          %a.button#tester_message
+            Send a message to your testers
+
+          .reveal{:id=>"message", "data-reveal"=>true}
+            %h4.blue
+              %textarea{:id=>"message_text", :name=>"message_text", :placeholder=>"Type your message here", :style=>"border: 0px solid white; box-shadow: inset 0 0px 0px rgba(51, 51, 51, 0.1); height: 300px;"}
+              %a.button{:id=>"send_message", "data-id"=>project.id}Send Message
 
         -if project.recipes.present?
 
@@ -143,3 +150,24 @@
               = recipe.available_test_list_name
             %br
 %p
+
+
+    
+
+:javascript
+
+  $('#tester_message').on("click", function(){
+    $('#message').foundation('open');
+  });
+
+  $('#send_message').on("click", function(){  
+     $.ajax({
+     type: "GET",
+     dataType: 'text',
+     url: "tester_message",
+     data: {"message":$('#message_text').val(), "id":$('#send_message').data("id")} ,
+     success: function(data,status,xhr) {
+       console.log(status);
+     }
+    });  
+   });   

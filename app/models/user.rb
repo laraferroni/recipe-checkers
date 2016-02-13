@@ -30,13 +30,13 @@ class User < ActiveRecord::Base
   def welcome_mails
     if self.tester_changed?
       if self.tester
-        UserMailer.new_tester_welcome(self)
+        UserMailer.delay.new_tester_welcome(self)
       end
     end
 
     if self.author_changed?
       if self.author
-        UserMailer.new_author_welcome(self)
+        UserMailer.delay.new_author_welcome(self)
       end
     end
 
