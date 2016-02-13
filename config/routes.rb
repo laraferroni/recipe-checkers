@@ -7,6 +7,7 @@ Rails.application.routes.draw do
 
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
 
+
   devise_for :users, controllers: {
     omniauth_callbacks: "omniauth_callbacks",
     registrations: "registrations",
@@ -15,6 +16,7 @@ Rails.application.routes.draw do
   } 
   delete "/users/auth/:provider" => "user_authentications#remove_auth", as: :user_omniauth_unauthorize
 
+  root "home#index"
   get "users/dashboard" => "users#dashboard"
   get "users/whitelist" => "users#whitelist"
   get "users/blacklist" => "users#blacklist"
@@ -40,8 +42,9 @@ Rails.application.routes.draw do
   resources :projects
   resources :photos
 
-  root "home#index"
 
+  #emails
+  get "projects/:id/tester_message" => "projects#tester_message"
 
 
   # The priority is based upon order of creation: first created -> highest priority.

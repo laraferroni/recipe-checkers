@@ -40,6 +40,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     @user.save
+
     respond_with(@user)
   end
 
@@ -72,6 +73,9 @@ class UsersController < ApplicationController
     
     redirect_to action: :dashboard
   end
+
+
+
 
   private
     def set_user

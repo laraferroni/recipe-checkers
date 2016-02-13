@@ -48,6 +48,13 @@ class ProjectsController < ApplicationController
 
   end
 
+  #sends a message to testers of the project
+  def tester_message
+
+    UserMailer.delay.tester_message
+    render :text => "Mailing testers", :content_type => 'text/html', status:200
+  end
+
   private
     def set_project
         @project = Project.find(params[:id])

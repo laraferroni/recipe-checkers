@@ -42,8 +42,8 @@ class RecipesController < ApplicationController
     tr.recipe_id = @recipe.id
     tr.user_id = current_user.id
     tr.save
+    UserMailer.new_tester_application(current_user, @recipe)
   end
-
 
   def approve
     set_recipe
@@ -57,7 +57,7 @@ class RecipesController < ApplicationController
     tr = TesterRecipe.where("user_id = ? and recipe_id = ?", @tester.id, @recipe.id).first
     tr.approved = true
     tr.save!
-
+    UserMailer.new_recipe_approved(@tester, @recipe)
     redirect_to controller: :users, action: :dashboard
   end
 
@@ -137,6 +137,8 @@ class RecipesController < ApplicationController
     @recipe.destroy
 
   end
+
+
 
   private
     def set_recipe

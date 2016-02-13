@@ -19,6 +19,29 @@ class User < ActiveRecord::Base
 
   attr_accessor :name
 
+  after_update :welcome_mails
+  after_create :intial_welcome_mail
+
+
+  def initial_welcome_mail
+    UserMailer.initial_welcome_mail(self)
+  end
+
+  def welcome_mails
+    if self.tester_changed?
+      if self.tester
+        UserMailer.new_tester_welcome(self)
+      end
+    end
+
+    if self.author_changed?
+      if self.author
+        UserMailer.new_author_welcome(self)
+      end
+    end
+
+  end
+
 	def name
 		name = []
 		name << self.first_name if self.first_name.present?

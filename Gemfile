@@ -45,7 +45,7 @@ group :asset, :default do
   gem 'gravatar_image_tag'
   gem 'useragent'
   gem 'will_paginate'
-  gem 'premailer-rails'
+  gem 'roadie'
   gem 'paperclip', ['>= 3.4', '!= 4.3.0']
   gem 'aws-sdk', '~> 1.5.7'
   gem 'remotipart', '~> 1.2'
@@ -61,6 +61,11 @@ end
 
 group :admin, :default do
   gem 'rails_admin', :git => 'git://github.com/sferik/rails_admin.git'
+end
+
+group :email, :default do
+  gem 'mandrill-api'
+  gem 'gibbon'
 end
 
 group :development, :default do
