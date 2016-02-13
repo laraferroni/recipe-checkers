@@ -39,6 +39,11 @@ class Recipe < ActiveRecord::Base
 		self.tester_recipes.count
 	end
 
+
+	def tester_recipes_with_email
+		self.tester_recipes.select{|tr| tr.user.email.present?}
+	end
+
 	def self.recipes_available
 		recipes = Recipe.where("complete != ?", true)
 		available_recipes = recipes.select{ |r| r.recipe_revisions.where("ready_to_test = ?", true).last.present? }

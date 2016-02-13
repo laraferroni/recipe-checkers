@@ -1,11 +1,9 @@
 %tr
   %td
-    %h3 Hi!
 
-    %p 
-    Thanks for helping us make the world of recipes better.
-    %p
-    Authors - I know your pain. That's why I created RecipeCheckers... to help manage the chaos of recipe testing. I hope it helps!
+    %p.lead
+      Recipe authors, I know your pain. 
+    That's why I created RecipeCheckers... to help manage the chaos of recipe testing. I hope it helps!
     %p
     Right now is early days. I'm kicking off the service with my own new cookbook, and I've got the basics working for adding recipes and testing, but I'm sure there are bugs and I'm sure that there are lots of things I could do differently. 
     %p
@@ -14,6 +12,8 @@
     %p  
     %hr
     %p
+    %p.lead
+      Here's what you do add recipes to test:
     When you log in, you'll see a link for 
     %a{:href=>@root_url+"users/dashboard"} My Recipes 
     at the top of the page. Or you can also just click on Start Testing from the home page. 
@@ -26,21 +26,41 @@
     Once you've added a project, you can start adding recipes. It's pretty straight-forward cut and paste (or of course, you could just type the recipe in directly.) There's nothing fancy for ingredient list or method... just put it all in the recipe body. Number of servings are called out separately, and you can add photos if you have them of what the dish "should" look like.
     %p
     Each recipe also can be assigned a number of testers, so the recipe disappears from the "Available Recipes" list once it has enough... that way, you don't have 10 people testing 1 recipe while others get neglected. 
-    %p
 
+
+    %p  
+    %hr
+    %p
+    %p.lead
+      Ask for Testers
     Once you get a recipe all ready to go, just push the "Ask for Testers" button, and it will appear in the list as available. It will also show up in on your My Recipes page under Recipes that Need Testing in Green with a check mark next to it, until you have testers signed up for it (then it will move to Recipes Being Tested on the left side of the screen). 
     %p
-    Be sure to let your network know that you are looking for testers as well! While over time I expect that the recipe checker testing network will grow with folks interested in testing, for now, we'll need to let our readers, social networks, etc know that you are looking for testers!
+    Be sure to let your network know that you are looking for testers as well! While over time I expect that the recipe checker testing network will grow with folks interested in testing, for now, you'll need to let our readers, social networks, etc know that you are looking for testers!
+
+    %p  
+    %hr
     %p
+    %p.lead
+      Recipe Versions
     Important: Once you push a recipe to testers, that version of the recipe is 
     %strong locked. 
     Why? Ok, this gets a little on the complicated side, but basically because it helps me keep the line by line comments in a logical place... if you change the recipe while a tester is already working on it and leaving comments, it'll get all weird. 
     %p
     A recipe can have lots of versions though, so if you need to make a change (based on feedback or your own editing), feel free to do so. The changes will just be in a new version. Once you get that one ready for testing, press "Ask for Testers" again, and that version will lock... testers will be able to see all of the versions, and you'll see all the versions & comments too. 
+
+
+    %p  
+    %hr
     %p
+    %p.lead
+      Feedback on Your Recipes
     Speaking of comments... to see the feedback your testers have left, just click on the recipe under Recipes Being Tested on your My Recipes page. From there, you'll be able to edit the recipe on the left, and see any feedback (and versions) on the right. Inline feedback will show up with a little comment balloon on the line, and any other feedback will show below the recipe. 
 
+    %p  
+    %hr
     %p
+    %p.lead
+      Approving Testers
     Ok... back to you've asked for testers. To make sure you are getting the right testers on the right recipes, testers apply to test, and you'll need to approve them. If a tester has applied for a recipe, their name will appear under the recipe in orange. Just click on the name, and read about the tester. You can approve them for the specific recipe, approve the tester for ALL of your recipes in the project (so you don't have to approve each one individually), or reject them so your recipes won't show up in their Available Recipes list. 
 
 
@@ -63,8 +83,8 @@
     %p
     Ok, so there's a lot there and to learn... but I should also let you know about some features I'm still working on:
     %p
-    %li An easy way to email all your testers on a project
-    %li Email when new testers apply to test a recipe
+    %li An easy way to email all your testers on a project (in testing!)
+    %li Email when new testers apply to test a recipe (in testing!)
     %li A once a day email that rolls up all the feedback on your recipes, if there is any
     %li A better way to add recipes, ideally straight from your manuscript. This one is probably a long way off!
     %li A way to print the recipe, with feedback

@@ -9,8 +9,9 @@ class Project < ActiveRecord::Base
 	end
 
 	def all_tester_emails
-		testers = self.recipes.select{ |r| r.tester_recipes.where("approved = ?", true).last.present? }
-		#finish this
+		self.recipes.map{ |recipe| recipe.tester_recipes_with_email.collect{|tr| tr.user.email}[0]}.select{|x| x.present?}.uniq
 	end
 
 end
+
+

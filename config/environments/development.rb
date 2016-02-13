@@ -17,7 +17,22 @@ Rails.application.configure do
   config.action_mailer.raise_delivery_errors = false
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
   config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = { :address => "localhost", :port => 1025 }
+  # Ensure you have defined default url options in your environments files for Devise
+  config.action_mailer.asset_host = "http://localhost:3000"
+
+  config.action_mailer.smtp_settings = {
+    :address   => "smtp.mandrillapp.com",
+    :port      => 587, # ports 587 and 2525 are also supported with STARTTLS
+    :enable_starttls_auto => true, # detects and uses STARTTLS
+    :user_name => ENV['MANDRILL_USER'],
+    :password  => ENV['MANDRILL_SMTP_PASSWORD'], # SMTP password is any valid API key
+    :authentication => 'login', # Mandrill supports 'plain' or 'login'
+    :domain => 'http://localhost:3000', # your domain to identify your server when connecting
+  }
+
+
+
+
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
 

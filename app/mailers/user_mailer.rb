@@ -12,26 +12,26 @@ class UserMailer <  Devise::Mailer
   	@message_from_author = message
     @project = project
     @root_url = root_url
-
-    mail(bcc: @project.all_tester_emails, subject: "Message from #{@project.user.name}")
+    logger.debug(@project.all_tester_emails.join(","))
+    mail(bcc: @project.all_tester_emails.join(","), subject: "RecipeCheckers message from #{@project.user.name}")
   end
 
   def initial_welcome_mail(user)
   	@user = user
     @root_url = root_url
-  	mail(to: @user.email, subject: 'Welcome')
+  	mail(to: @user.email, subject: 'Welcome to RecipeCheckers')
   end
 
   def new_tester_welcome(user)
   	@user = user
   	@root_url = root_url
-    mail(to: @user.email, subject: 'Welcome')
+    mail(to: @user.email, subject: 'How to Test with RecipeCheckers')
   end
 
   def new_author_welcome(user)
   	@user = user  	
   	@root_url = root_url  	
-    mail(to: @user.email, subject: 'Welcome')
+    mail(to: @user.email, subject: 'How to Get Your Recipes Tested with RecipeCheckers')
   end
 
   def new_tester_application(user, recipe)

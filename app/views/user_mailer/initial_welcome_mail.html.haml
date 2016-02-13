@@ -1,6 +1,6 @@
 %tr
   %td
-    %h3 Hi!
+    %h6 Hi!
 
     %p 
     Thanks for helping make the world of recipes better! 
@@ -13,7 +13,10 @@
       %p
       Be sure to set whether you are a recipe tester, recipe author, or both on
       %a{:href=>@root_url+"users/edit"} your user info page. 
-      And, while you are there, set your tester or author bio!
+      And, while you are there, set 
+      -if !@user.name.present?
+        your name and 
+      your tester or author bio!
       %p
       Once you select that, you'll get mail with more information about what to do next!
 

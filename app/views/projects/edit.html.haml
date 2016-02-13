@@ -15,10 +15,15 @@
         Send a message to your testers
 
 
-.reveal{:id=>"message", "data-reveal"=>true}
+.reveal.message{:id=>"message", "data-reveal"=>true, "data-id"=>@project.id}
   %h4.blue
-    %textarea{:id=>"message_text", :name=>"message_text", :placeholder=>"Type your message here", :style=>"border: 0px solid white; box-shadow: inset 0 0px 0px rgba(51, 51, 51, 0.1); height: 300px;"}
-    %a.button{:id=>"send_message"}Send Message
+    Hi Testers,
+    %textarea{:id=>"message_text", :name=>"message_text", :placeholder=>"Type your message here", :style=>"border: 1px solid #ccc; box-shadow: inset 0 0px 0px rgba(51, 51, 51, 0.1); height: 300px;"}
+    Cheers,
+    %br
+    =@project.user.name
+    %hr
+    %a.button.send_message{:id=>"send_message", "data-id"=>@project.id}Send Message
 
 .reveal.tiny{:id=>"updating", "data-reveal"=>true}
   %h4.blue
@@ -44,8 +49,7 @@
      url: "tester_message",
      data: {"message":$('#message_text').val(), "id":"#{@project.id}"} ,
      success: function(data,status,xhr) {
-       console.log(status);
-
      }
     });
+    $(this).parent().parent().foundation('close');
   });
