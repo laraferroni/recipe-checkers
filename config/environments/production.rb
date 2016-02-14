@@ -62,7 +62,7 @@ Rails.application.configure do
 
 
 
-  config.action_mailer.default_url_options = { :host => 'recipecheckers.com'}
+  config.action_mailer.default_url_options = { :host => 'www.recipecheckers.com'}
   config.action_mailer.asset_host = 'http://www.recipecheckers.com/'
   config.action_mailer.smtp_settings = {
     :address   => "smtp.mandrillapp.com",
