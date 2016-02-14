@@ -71,7 +71,7 @@ Rails.application.configure do
     :user_name => ENV['MANDRILL_USER'],
     :password  => ENV['MANDRILL_SMTP_PASSWORD'], # SMTP password is any valid API key
     :authentication => 'login', # Mandrill supports 'plain' or 'login'
-    :domain => 'http://recipecheckers.com/', # your domain to identify your server when connecting
+    :domain => 'http://www.recipecheckers.com/', # your domain to identify your server when connecting
   }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to

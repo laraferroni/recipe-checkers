@@ -39,14 +39,14 @@ class UserMailer <  Devise::Mailer
   	@recipe = recipe
     @user = @recipe.user
     @root_url = root_url
-    mail(to: @user.email, subject: 'Welcome')
+    mail(to: @user.email, subject: 'You have a new tester in RecipeCheckers')
   end
 
   def new_recipe_approved(user, recipe)
   	@user = user
   	@recipe = recipe
     @root_url = root_url
-    mail(to: @user.email, subject: 'Welcome')
+    mail(to: @user.email, subject: "You've been approved to test in RecipeCheckers")
   end
 
 end
